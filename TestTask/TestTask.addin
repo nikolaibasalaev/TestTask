@@ -5,7 +5,7 @@
     <Description>Some description for TestTask</Description>
     <Assembly>TestTask.dll</Assembly>
     <FullClassName>TestTask.Command</FullClassName>
-    <ClientId>483fb574-e524-4215-b21b-4f47048c3e88</ClientId>
+    <ClientId>04FAF9D2-0411-407F-B8A8-D3711AE168F9</ClientId>
     <VendorId>com.typepad.thebuildingcoder</VendorId>
     <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
   </AddIn>
@@ -13,7 +13,7 @@
     <Name>Application TestTask</Name>
     <Assembly>TestTask.dll</Assembly>
     <FullClassName>TestTask.App</FullClassName>
-    <ClientId>b79fb9a3-9852-49cb-8372-014027e3219a</ClientId>
+    <ClientId>1A602AA9-0554-48E2-8641-C1E13F4A0E3B</ClientId>
     <VendorId>com.typepad.thebuildingcoder</VendorId>
     <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
   </AddIn>
