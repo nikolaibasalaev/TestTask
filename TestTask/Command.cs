@@ -25,10 +25,10 @@ namespace TestTask
         /// <summary>
         /// Inform all the wall types can be created in current document
         /// </summary>
-   
+
         public Command()
         {
-          
+
         }
 
         public string[] Outputdata { get => m_Outputdata; set => m_Outputdata = value; }
@@ -37,7 +37,7 @@ namespace TestTask
         {
             UIApplication uiapp = commandData.Application;
             UIDocument uidoc = uiapp.ActiveUIDocument;
-          //  Application app = uiapp.Application;
+            //  Application app = uiapp.Application;
             Document doc = uidoc.Document;
 
             // Access current selection
@@ -46,44 +46,49 @@ namespace TestTask
             Element fid = doc.GetElement(sel.ElementId);
             Family f = null;
             List<string> OutData = new List<string>();
-            try
+
+            FamilyInstance elFamInst = fid as FamilyInstance;
+            f = elFamInst.Symbol.Family;
+            OutData.Add("Имя исходного семейства: " + f.Name);
+            FamilySymbol mainf = elFamInst.Symbol;
+            OutData.Add("Shared parameters для данного семейства:");
+            ParameterSet parametersmain = mainf.Parameters;
+            foreach (Parameter param in parametersmain)
             {
-                FamilyInstance elFamInst = fid as FamilyInstance;
-                f = elFamInst.Symbol.Family;
-              //  TaskDialog.Show("found!", "Fount family name: " + f.Name);
-                OutData.Add("Имя исходного семейства: " + f.Name);
+                if (param.IsShared)
+                {
+                    OutData.Add("Имя: " + param.Definition.Name + " / GUID: " + param.GUID.ToString());
+                }
             }
-            catch (Exception ex)
-            {
-                TaskDialog.Show("Error", ex.Message);
-            }
-            
+            //нахождение вложенных семейств и их параметров
+
             Document famDoc = uidoc.Document.EditFamily(f);
             FilteredElementCollector filteredFamCollector = new FilteredElementCollector(famDoc);
             filteredFamCollector.OfClass(typeof(FamilySymbol));
 
             // Filtered element collector is iterable
-            List<string> ParamName = new List<string>();
-            List<string> ParamGuid = new List<string>();
+           // List<string> ParamName = new List<string>();
+           // List<string> ParamGuid = new List<string>();
             //FamilyInstance r = null;
             foreach (FamilySymbol e in filteredFamCollector)
             {
                 //r = e as FamilyInstance;
                 OutData.Add("Вложенное семейство: " + e.Name);
                 OutData.Add("Shared Parameters: ");
-                 ParameterSet parameterss = e.Parameters;
+                ParameterSet parameterss = e.Parameters;
                 foreach (Parameter param in parameterss)
-                   if (param.IsShared)
+                {
+                    if (param.IsShared)
                     {
-                        OutData.Add("Имя: "+ param.Definition.Name +" / GUID: "+ param.GUID.ToString());
-                 
-                   }
-               
+                        OutData.Add("Имя: " + param.Definition.Name + " / GUID: " + param.GUID.ToString());
+
+                    }
+                }
             }
 
             Outputdata = OutData.ToArray();
 
-        using (Output displayForm1 = new Output(this))
+            using (Output displayForm1 = new Output(this))
             {
                 if (DialogResult.OK != displayForm1.ShowDialog())
                 {
@@ -105,7 +110,7 @@ namespace TestTask
         }
 
 
-      
+
 
     }
 }
